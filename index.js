@@ -1,15 +1,21 @@
+console.clear();
+require("dotenv").config();
+
 const express = require("express");
-const mongoose = require("mongoose");
+const cors = require("cors");
+const helmet = require("helmet");
+
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/xharktank", {
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-},(err)=>{
-    if(err) console.log(err)
-    else console.log("Successfully connected.")
-})
+/** Middleware */
+app.use(helmet());
+app.use(cors());
 
-app.listen(8081, () => {
-    console.log("On Port 8081")
-})
+/** Connection to mongo db */
+const port = process.env.PORT || 8081;
+const connectToDatabase = require("./config/dbConfig");
+connectToDatabase().then(() => {
+  app.listen(port, () => {
+    console.log(`App is running on port : ${port}`);
+  });
+});
