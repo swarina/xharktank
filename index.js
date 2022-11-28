@@ -11,11 +11,24 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 
+app.use(express.json({ extended: false, limit: "5mb" }));
+app.use(express.urlencoded({ extended: true, limit: "5mb" }));
+
 /** Connection to mongo db */
 const port = process.env.PORT || 8081;
 const connectToDatabase = require("./config/dbConfig");
 connectToDatabase().then(() => {
   app.listen(port, () => {
     console.log(`App is running on port : ${port}`);
+  });
+});
+
+/** Routes */
+app.use("/pitches", require("./router/pitch"));
+// app.use("/pitches/", require("./router/pitch"));
+
+app.use("/", (_, res) => {
+  res.status(200).json({
+    message: "API Runningsdfsd",
   });
 });
