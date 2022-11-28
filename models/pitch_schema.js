@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
 
 const PitchSchema = new mongoose.Schema({
-  name: {
+  entrepreneur: {
     type: String,
     required: true,
   },
-  title: {
+  pitchTitle: {
     type: String,
     required: true,
   },
-  idea: {
+  pitchIdea: {
     type: String,
     required: true,
   },
-  amount: {
+  askAmount: {
     type: Number,
     required: true,
   },

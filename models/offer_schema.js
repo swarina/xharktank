@@ -5,7 +5,7 @@ const OfferSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Pitch",
   },
-  name: {
+  investor: {
     type: String,
     required: true,
   },
@@ -15,6 +15,10 @@ const OfferSchema = new mongoose.Schema({
   },
   equity: {
     type: Number,
+    required: true,
+  },
+  comment: {
+    type: String,
     required: true,
   }
 });
