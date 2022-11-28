@@ -25,10 +25,10 @@ connectToDatabase().then(() => {
 
 /** Routes */
 app.use("/pitches", require("./router/pitch"));
-// app.use("/pitches/", require("./router/pitch"));
+app.use("/pitches/:id", require("./router/pitch"));
 
 app.use("/", (_, res) => {
   res.status(200).json({
-    message: "API Runningsdfsd",
+    message: "API Running",
   });
 });
