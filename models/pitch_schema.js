@@ -20,7 +20,11 @@ const PitchSchema = new mongoose.Schema({
   equity: {
     type: Number,
     required: true,
-  }
+  },
+  offers:[{
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Offer",
+  }],
 });
 
 module.exports = mongoose.model("Pitch", PitchSchema);

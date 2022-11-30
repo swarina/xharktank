@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const OfferSchema = new mongoose.Schema({
-  pitchId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Pitch",
-  },
   investor: {
     type: String,
     required: true,
@@ -19,8 +15,8 @@ const OfferSchema = new mongoose.Schema({
   },
   comment: {
     type: String,
-    required: true,
-  }
+    required: true
+  },
 });
 
 module.exports = mongoose.model("Offer", OfferSchema);
