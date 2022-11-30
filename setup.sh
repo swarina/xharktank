@@ -1,26 +1,27 @@
 #!/bin/bash
-# CRIO_SOLUTION_AND_STUB_START_MODULE_BASIC
-# This script must contain a series of commands to set up dependencies of your project to make it work.
 
-# # Eg:- For Node.js project;
-          npm install
+# Install MongoDB on AWS Ubuntu EC2 Instance
 
-# # Eg:- For Java Gradle Project;
-#           chmod +x gradlew
-#           ./gradlew build
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
 
-# # Eg:- For Java Maven Project:
-# 	        chmod +x mvnw
-# 	        ./mvnw clean install compile test
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
 
-# # Eg:- For Python Project;
-#           pip install -r requirements.txt
+sudo apt update
 
-# # Eg:- Run a shell script or bash commands to create tables or seed data into the database.
-#           export PGPASSWORD="Admin@1324";psql -h localhost -U admin -p 5432 -d xharktank -f < XharkTank.sql
+sudo apt install -y mongodb-org
 
-# MongoDB setup commands likh lena idhar
-# username password kaha se utha rha project?haa
-# hello?
+sudo systemctl start mongod
+sudo systemctl status mongod
 
-# CRIO_SOLUTION_AND_STUB_END_MODULE_BASIC
+sudo systemctl enable mongod
+
+# Install Node.js application on AWS
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+
+. ~/.nvm/nvm.sh
+
+nvm install node
+
+node -v
+npm -v
