@@ -1,5 +1,5 @@
 const Pitch = require("../models/pitch_schema");
-const Offer = require("../models/offer_schema");
+// const Offer = require("../models/offer_schema");
 const { validationResult } = require("express-validator");
 const showError = require("../utils/showError.js");
 
@@ -18,6 +18,7 @@ const getPitches = (req, res) => {
     .catch((error) => {
       console.log(error.message);
       showError(error, res);
+      res.status(400).json("Invalid request");
     });
 };
 
@@ -26,7 +27,6 @@ const getPitch = (req, res) => {
   Pitch.findById(req.params.id)
   .then((pitch) => {
     const {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers } = pitch;
-      
     res.status(200).json(
       {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers}
     );
