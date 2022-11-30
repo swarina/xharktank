@@ -25,7 +25,7 @@ connectToDatabase().then(() => {
 
 /** Routes */
 app.use("/pitches", require("./router/pitch"));
-app.use("/pitches/:id", require("./router/pitch"));
+app.use("/pitches", require("./router/offer"));
 
 app.use("/", (_, res) => {
   res.status(200).json({

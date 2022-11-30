@@ -1,4 +1,5 @@
 const Pitch = require("../models/pitch_schema");
+const Offer = require("../models/offer_schema");
 const { validationResult } = require("express-validator");
 const showError = require("../utils/showError.js");
 
@@ -7,8 +8,8 @@ const getPitches = (req, res) => {
   Pitch.find()
     .sort({_id: -1})
     .then((pitches) => {
-      const pitchTruncated = pitches.map(({ _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity }) => {
-        return { _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity };
+      const pitchTruncated = pitches.map(({ _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers }) => {
+        return { _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers };
       });
       res.status(200).json(
         pitchTruncated
@@ -23,15 +24,18 @@ const getPitches = (req, res) => {
 // Get a Single Pitch
 const getPitch = (req, res) => {
   Pitch.findById(req.params.id)
-    .then((pitch) => {
-      const { _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity } = pitch
-      return res.status(200).json(
-        { _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity }
-      );
-    })
-    .catch((error) => {
-      res.status(404).json("Pitch Not Found");
-    });
+  .then((pitch) => {
+    const {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers } = pitch;
+      
+    res.status(200).json(
+      {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers}
+    );
+  })
+  .catch((error) => {
+    console.log(error.message);
+    showError(error, res);
+    res.status(404).json("Pitch not found.");
+  });
 };
 
 // Create a new Pitch
@@ -54,10 +58,8 @@ const postPitch = async (req, res) => {
     });
 
     await newPitch.save();
-
-    console.log(newPitch);
-
     return res.status(201).json({"id": newPitch.id});
+    
   } catch (error) {
     showError(error, res);
   }

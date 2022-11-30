@@ -3,7 +3,7 @@
 # This script must contain a series of commands to set up dependencies of your project to make it work.
 
 # # Eg:- For Node.js project;
-#           npm install
+          npm install
 
 # # Eg:- For Java Gradle Project;
 #           chmod +x gradlew
@@ -18,5 +18,9 @@
 
 # # Eg:- Run a shell script or bash commands to create tables or seed data into the database.
 #           export PGPASSWORD="Admin@1324";psql -h localhost -U admin -p 5432 -d xharktank -f < XharkTank.sql
+
+# MongoDB setup commands likh lena idhar
+# username password kaha se utha rha project?haa
+# hello?
 
 # CRIO_SOLUTION_AND_STUB_END_MODULE_BASIC
