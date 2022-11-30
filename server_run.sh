@@ -1,4 +1,3 @@
 # Setup DB or any other environment variables you want to setup.
 
-npm install
-# npm run start
+pm2 start index.js
