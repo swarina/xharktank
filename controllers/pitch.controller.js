@@ -5,7 +5,7 @@ const showError = require("../utils/showError.js");
 // Get all Pitches
 const getPitches = (req, res) => {
   Pitch.find()
-    .sort({_id: -1})
+    .sort({updatedAt: -1})
     .then((pitches) => {
       const pitchTruncated = pitches.map(({ _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers }) => {
         var newOffers = [];
