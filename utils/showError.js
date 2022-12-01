@@ -1,8 +1,8 @@
 module.exports = (error, res) => {
     console.log(error.message);
-    res.status(500).json({
+    res.status(400).json({
       error,
-      message: "Something went wrong.",
+      message: "Bad Request.",
     });
   };
   

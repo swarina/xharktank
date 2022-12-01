@@ -32,8 +32,8 @@ const getPitch = (req, res) => {
     );
   })
   .catch((error) => {
-    console.log(error.message);
-    showError(error, res);
+    // console.log(error.message);
+    // showError(error, res);
     res.status(404).json("Pitch not found.");
   });
 };
@@ -46,6 +46,7 @@ const postPitch = async (req, res) => {
       message: errors.array(),
     });
   }
+
   const { entrepreneur, pitchTitle, pitchIdea, askAmount, equity } = req.body;
   try {
     // create new pitch
@@ -62,6 +63,9 @@ const postPitch = async (req, res) => {
     
   } catch (error) {
     showError(error, res);
+    return res.status(400).json({
+      message: errors.array(),
+    });
   }
 };
 

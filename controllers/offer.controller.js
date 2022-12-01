@@ -34,7 +34,7 @@ const postOffer = async (req, res) => {
       Pitch.findByIdAndUpdate(req.params.id, {offers: newOffers}, (err, doc) => {
         if(err) res.status(400).json("Invalid request.")
         else {
-          console.log(newOffers);
+          // console.log(newOffers);
           return res.status(201).json({"id": newOffers[newOffers.length - 1]._id});
         }
       })
