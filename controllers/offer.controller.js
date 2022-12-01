@@ -16,6 +16,8 @@ const postOffer = async (req, res) => {
     return res.status(400).json("Bad Request");
   }
 
+  if(equity > 100) return res.status(400).json("Bad Request.");
+
   const pitchId = req.params.id;
 
     try {
@@ -38,7 +40,6 @@ const postOffer = async (req, res) => {
       Pitch.findByIdAndUpdate(req.params.id, {offers: newOffers}, (err, doc) => {
         if(err) res.status(400).json("Invalid request.")
         else {
-          // console.log(newOffers);
           return res.status(201).json({"id": newOffers[newOffers.length - 1]._id});
         }
       })

@@ -1,5 +1,4 @@
 const Pitch = require("../models/pitch_schema");
-// const Offer = require("../models/offer_schema");
 const { validationResult } = require("express-validator");
 const showError = require("../utils/showError.js");
 
@@ -9,16 +8,20 @@ const getPitches = (req, res) => {
     .sort({_id: -1})
     .then((pitches) => {
       const pitchTruncated = pitches.map(({ _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers }) => {
-        return { _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers };
+        var newOffers = [];
+        offers.forEach((offer) => {
+          const {investor, amount, equity, comment, _id} = offer;
+          newOffers.push({_id, investor, amount, equity, comment});
+        })
+        return { _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers": newOffers };
       });
       res.status(200).json(
         pitchTruncated
       );
     })
     .catch((error) => {
-      console.log(error.message);
       showError(error, res);
-      res.status(400).json("Invalid request");
+      // res.status(400).json("Invalid request");
     });
 };
 
@@ -26,15 +29,22 @@ const getPitches = (req, res) => {
 const getPitch = (req, res) => {
   Pitch.findById(req.params.id)
   .then((pitch) => {
+    if(pitch === null) return res.status(404).json("Pitch Not Found");
+
     const {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers } = pitch;
+    var newOffers = [];
+    offers.forEach((offer) => {
+      const {investor, amount, equity, comment, _id} = offer;
+      newOffers.push({_id, investor, amount, equity, comment});
+    })
+
     res.status(200).json(
-      {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers}
+      {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers" : newOffers}
     );
   })
   .catch((error) => {
-    // console.log(error.message);
-    // showError(error, res);
-    res.status(404).json("Pitch not found.");
+    // console.log(error);
+    res.status(400).json("Bad Request");
   });
 };
 
@@ -48,6 +58,9 @@ const postPitch = async (req, res) => {
   }
 
   const { entrepreneur, pitchTitle, pitchIdea, askAmount, equity } = req.body;
+
+  if(equity > 100) return res.status(400).json("Bad Request.");
+  
   try {
     // create new pitch
     const newPitch = new Pitch({
