@@ -12,6 +12,10 @@ const postOffer = async (req, res) => {
   }
 
   const {investor, amount, equity, comment } = req.body;
+  if(!investor || !amount || !equity || !comment) {
+    return res.status(400).json("Bad Request");
+  }
+
   const pitchId = req.params.id;
 
     try {
