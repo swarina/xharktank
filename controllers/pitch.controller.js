@@ -13,7 +13,7 @@ const getPitches = (req, res) => {
           const {investor, amount, equity, comment, _id} = offer;
           newOffers.push({_id, investor, amount, equity, comment});
         })
-        return { _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers": newOffers };
+        return { "id": _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers": newOffers };
       });
       res.status(200).json(
         pitchTruncated
@@ -39,7 +39,7 @@ const getPitch = (req, res) => {
     })
 
     res.status(200).json(
-      {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers" : newOffers}
+      {"id": _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers" : newOffers}
     );
   })
   .catch((error) => {
@@ -60,7 +60,7 @@ const postPitch = async (req, res) => {
   const { entrepreneur, pitchTitle, pitchIdea, askAmount, equity } = req.body;
 
   if(equity > 100) return res.status(400).json("Bad Request.");
-  
+
   try {
     // create new pitch
     const newPitch = new Pitch({
