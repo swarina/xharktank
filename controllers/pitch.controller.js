@@ -5,15 +5,15 @@ const showError = require("../utils/showError.js");
 // Get all Pitches
 const getPitches = (req, res) => {
   Pitch.find()
-    .sort({_id: -1})
+    .sort({id: -1})
     .then((pitches) => {
-      const pitchTruncated = pitches.map(({ _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers }) => {
+      const pitchTruncated = pitches.map(({ id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers }) => {
         var newOffers = [];
         offers.forEach((offer) => {
-          const {investor, amount, equity, comment, _id} = offer;
-          newOffers.push({_id, investor, amount, equity, comment});
+          const {investor, amount, equity, comment, id} = offer;
+          newOffers.push({id, investor, amount, equity, comment});
         })
-        return { "id": _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers": newOffers };
+        return { id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers": newOffers };
       });
       res.status(200).json(
         pitchTruncated
@@ -21,7 +21,6 @@ const getPitches = (req, res) => {
     })
     .catch((error) => {
       showError(error, res);
-      // res.status(400).json("Invalid request");
     });
 };
 
@@ -31,15 +30,15 @@ const getPitch = (req, res) => {
   .then((pitch) => {
     if(pitch === null) return res.status(404).json("Pitch Not Found");
 
-    const {_id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers } = pitch;
+    const {id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, offers } = pitch;
     var newOffers = [];
     offers.forEach((offer) => {
-      const {investor, amount, equity, comment, _id} = offer;
-      newOffers.push({"id": _id, investor, amount, equity, comment});
+      const {investor, amount, equity, comment, id} = offer;
+      newOffers.push({ id, investor, amount, equity, comment});
     })
 
     res.status(200).json(
-      {"id": _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers" : newOffers}
+      {id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers" : newOffers}
     );
   })
   .catch((error) => {
@@ -71,6 +70,10 @@ const postPitch = async (req, res) => {
     });
 
     await newPitch.save();
+    Pitch.updateMany({}, { $rename: { _id: 'id' } }, { multi: true }, (err, blocks) => {
+        if(err) { throw err; }
+    });
+
     return res.status(201).json({"id": newPitch.id});
     
   } catch (error) {
