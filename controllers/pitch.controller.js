@@ -11,7 +11,7 @@ const getPitches = (req, res) => {
         var newOffers = [];
         offers.forEach((offer) => {
           const {investor, amount, equity, comment, _id} = offer;
-          newOffers.push({_id, investor, amount, equity, comment});
+          newOffers.push({"id": _id, investor, amount, equity, comment});
         })
         return { "id": _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers": newOffers };
       });
@@ -35,7 +35,7 @@ const getPitch = (req, res) => {
     var newOffers = [];
     offers.forEach((offer) => {
       const {investor, amount, equity, comment, _id} = offer;
-      newOffers.push({_id, investor, amount, equity, comment});
+      newOffers.push({"id": _id, investor, amount, equity, comment});
     })
 
     res.status(200).json(
