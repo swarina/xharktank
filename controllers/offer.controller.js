@@ -37,9 +37,9 @@ const postOffer = async (req, res) => {
       offers.push(newOffer);
       newOffers = [...offers];
 
-      Pitch.updateMany({}, { $rename: { _id: 'id' } }, { multi: true }, (err, blocks) => {
-          if(err) { throw err; }
-      });
+      // Pitch.updateMany({}, { $rename: { _id: 'id' } }, { multi: true }, (err, blocks) => {
+      //     if(err) { throw err; }
+      // });
 
       Pitch.findByIdAndUpdate(req.params.id, {offers: newOffers}, (err, doc) => {
         if(err) res.status(400).json("Invalid request.")
