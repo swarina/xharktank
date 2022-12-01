@@ -11,7 +11,7 @@ const getPitches = (req, res) => {
         var newOffers = [];
         offers.forEach((offer) => {
           const {investor, amount, equity, comment, _id} = offer;
-          newOffers.push({"id": _id, investor, amount, equity, comment});
+          newOffers.push({_id, investor, amount, equity, comment});
         })
         return { "id": _id, entrepreneur, pitchTitle, pitchIdea, askAmount, equity, "offers": newOffers };
       });
@@ -43,7 +43,6 @@ const getPitch = (req, res) => {
     );
   })
   .catch((error) => {
-    // console.log(error);
     res.status(400).json("Bad Request");
   });
 };
