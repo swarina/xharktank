@@ -15,7 +15,7 @@ app.use(express.json({ extended: false, limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
 /** Connection to mongo db */
-const port = process.env.PORT || 8081;
+const port = process.env.SERVER_PORT || 8081;
 const connectToDatabase = require("./config/dbConfig");
 connectToDatabase().then(() => {
   app.listen(port, () => {
